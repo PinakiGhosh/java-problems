@@ -1,4 +1,3 @@
-//slowMethod class
 class slowMethod extends Thread
 {
     public void run()

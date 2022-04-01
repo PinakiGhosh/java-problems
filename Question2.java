@@ -1,19 +1,46 @@
-//SinglyLinkedList class
-class SinglyLinkedList<Type>
+/**
+ * Node class
+ */
+class Node<Type>
 {
-    Node head;
-
-    private class Node //Create node
+    Type data;
+    Node next;
+    /**
+     * Create node
+     * @param data
+     */
+    public Node(Type data)
     {
-        Type data;
-        Node next;
+        this.data = data;
+        next = null;
     }
 
-    public void addEnd(Type data) //Add to end of list
+    public Node getNext() {
+        return next;
+    }
+
+    public Type getData() {
+        return data;
+    }
+
+    public void setNext(Node node) {
+        this.next = node;
+    }
+
+}
+/**
+ * SinglyLinkedList class
+ */
+class SinglyLinkedList<Type>
+{
+    private Node head;
+    /**
+     * Add to end of list
+     * @param data
+     */
+    public void addEnd(Type data)
     {
-        Node node = new Node();
-        node.data = data;
-        node.next = null;
+        Node<Type> node = new Node<>(data);
 
         if(head==null) {
             head = node;
@@ -22,78 +49,98 @@ class SinglyLinkedList<Type>
         else
         {
             Node cursor = head;
-            while(cursor.next!=null)
+            while(cursor.getNext()!=null)
             {
-                cursor = cursor.next;
+                cursor = cursor.getNext();
             }
-            cursor.next = node;
+            cursor.setNext(node);
         }
 
     }
-    public void addStart(Type data) //Add to start of list
+    /**
+     * Add to start of list
+     * @param data
+     */
+    public void addStart(Type data)
     {
-        Node node = new Node();
-        node.data = data;
-        node.next = head;
+        Node<Type> node = new Node<>(data);
+        node.setNext(head);
         head = node;
     }
 
-    public void addAfter(int index,Type data) //Add after an element
+    /**
+     * Add after an element
+     * @param data
+     * @param index
+     */
+    public void addAfter(int index,Type data)
     {
-        Node node = new Node();
-        node.data = data;
-        node.next = null;
+        Node<Type> node = new Node<>(data);
 
         Node cursor = head;
         for(int i=0;i<=index-1;i++)
         {
-            cursor = cursor.next;
+            cursor = cursor.getNext();
         }
-        node.next = cursor.next;
-        cursor.next = node;
+        node.setNext(cursor.getNext());
+        cursor.setNext(node);
     }
 
-    public void deleteStart() //Delete from start of list
+    /**
+     * Delete from start of list
+     */
+    public void deleteStart()
     {
-        head = head.next;
+        head = head.getNext();
     }
 
-    public void deleteEnd() //Delete from end of list
+    /**
+     * Delete from end of list
+     */
+    public void deleteEnd()
     {
         Node cursor = head;
         int size=0;
-        while(cursor.next!=null)
+        while(cursor.getNext()!=null)
         {
-            cursor = cursor.next;
+            cursor = cursor.getNext();
             size+=1;
         }
         deleteAfter(size-1);
     }
-    public void deleteAfter(int index) //Delete after an index
+
+    /**
+     * Delete after an index
+     * @param index
+     */
+    public void deleteAfter(int index)
     {
         Node cursor = head;
-        Node delete_index = null;
+        Node deleteIndex = null;
         for(int i=0;i<=index-1;i++)
         {
-            cursor = cursor.next;
+            cursor = cursor.getNext();
         }
-        delete_index = cursor.next;
-        cursor.next = delete_index.next;
+        deleteIndex = cursor.getNext();
+        cursor.setNext(deleteIndex.getNext());
 
-        delete_index = null;
+        deleteIndex = null;
     }
 
-    public void show() //Print list elements
+    /**
+     * Print list elements
+     */
+    public void show()
     {
         Node node = head;
         try
         {
-            while (node.next != null)
+            while (node.getNext() != null)
             {
-                System.out.println(node.data);
-                node = node.next;
+                System.out.println(node.getData());
+                node = node.getNext();
             }
-            System.out.println(node.data);
+            System.out.println(node.getData());
         }
         catch(NullPointerException e)
         {
@@ -110,30 +157,23 @@ public class Question2{
     public static void main(String[] args) {
         SinglyLinkedList<String> list = new SinglyLinkedList<String>();
 
-        //Add elements
         list.addEnd("hello");
         list.addEnd("world");
 
-        //Add element at start
         list.addStart("new");
 
-        //Add element after index:1
         list.addAfter(1,"my");
 
-        //Show elements
         list.show();
+
         System.out.println("----------------");
 
-        //Delete element at start
         list.deleteStart();
 
-        //Delete element at end
         list.deleteEnd();
 
-        //Delete element after index:0
         list.deleteAfter(0);
 
-        //Show elements
         list.show();
     }
 }

@@ -1,4 +1,6 @@
-//Stack Interface
+/**
+ * Stack interface
+ */
 interface Stack<Type>
 {
     void push(Type data) throws StackSizeExceeded;
@@ -6,8 +8,9 @@ interface Stack<Type>
     void peek();
     int size();
 }
-
-//Exception Classes
+/**
+ * Exception Classes
+ */
 class StackSizeExceeded extends Exception
 {
     public StackSizeExceeded(String message) {super(message);}
@@ -17,35 +20,66 @@ class IllegalArgumentException extends Exception
     public IllegalArgumentException(String message) {super(message);}
 }
 
-//Limited Stack Class
+/**
+ * Node class
+ */
+class Node<Type>
+{
+    Type data;
+    Node next;
+    /**
+     * Create node
+     * @param data
+     */
+    public Node(Type data)
+    {
+        this.data = data;
+        next = null;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public Type getData() {
+        return data;
+    }
+
+    public void setNext(Node node) {
+        this.next = node;
+    }
+
+}
+/**
+ * LimitedStack Class
+ */
 class LimitedStack<Type> implements Stack<Type>
 {
-    Node head;
+    private Node head;
     int maxStack;
 
-    public LimitedStack(int max) throws IllegalArgumentException //LimitedStack Constructor
+    public LimitedStack(int max) throws IllegalArgumentException
     {
-        if(max <= 0) //Validate Argument
+        /**
+         * Validate Argument
+         */
+        if(max <= 0)
         {
-            throw new IllegalArgumentException("Illegal Argument");
+            throw new IllegalArgumentException("Size cannot be {"+max+"}");
         }
-        else maxStack=max;
+        else {maxStack=max;}
     }
 
-    private class Node //Create Node
-    {
-        Type data;
-        Node next;
-    }
-
+    /**
+     * Push method
+     * @param data
+     */
     @Override
-    public void push(Type data) throws StackSizeExceeded //Push method
+    public void push(Type data) throws StackSizeExceeded
     {
-        if (size()<maxStack)
+        if (maxStack>0)
         {
-            Node node = new Node();
-            node.data = data;
-            node.next = null;
+            Node<Type> node = new Node<>(data);
 
             if(head==null) {
                 head = node;
@@ -53,45 +87,53 @@ class LimitedStack<Type> implements Stack<Type>
 
             else
             {
-                node.next=head;
+                node.setNext(head);
                 head = node;
             }
+            maxStack--;
         }
-        else throw new StackSizeExceeded("Stack size exceeded");
+        else
+        {throw new StackSizeExceeded("Stack size exceeded");}
 
 
     }
-
+    /**
+     * pop method
+     */
     @Override
-    public void pop() //Pop method
+    public void pop()
     {
         if (size()!=0)
         {
             System.out.println(head.data);
-            head=head.next;
+            head=head.getNext();
         }
     }
-
+    /**
+     * peek method
+     */
     @Override
-    public void peek() //Peek method
+    public void peek()
     {
         if (size()!=0)
         {
             System.out.println(head.data);
         }
     }
-
+    /**
+     * Size method
+     */
     @Override
-    public int size() //Size method
+    public int size()
     {
         Node node = head;
         int size=0;
         try
         {
-            while (node.next != null)
+            while (node.getNext() != null)
             {
                 size += 1;
-                node = node.next;
+                node = node.getNext();
             }
             size += 1;
         }
@@ -101,22 +143,24 @@ class LimitedStack<Type> implements Stack<Type>
         return size;
     }
 
-    public void show() //Show elements in stack
+    /**
+     * Show elements in stack
+     */
+    public void show()
     {
         Node node = head;
-    try
-    {
-        while (node.next != null)
+        if (size()==0)
         {
-            System.out.println(node.data);
-            node = node.next;
+            System.out.println("Stack is empty");
         }
-        System.out.println(node.data);
-    }
-    catch(NullPointerException e)
-    {
-        System.out.println("Stack is empty");
-    }
+        else {
+            while (node.getNext() != null) {
+                System.out.println(node.getData());
+                node = node.getNext();
+            }
+            System.out.println(node.getData());
+        }
+
 
     }
 }
@@ -127,9 +171,10 @@ public class Question5
     {
         try {
             LimitedStack<String> stack = new LimitedStack<String>(3);
-
             try {
-                //Push elements to stack
+                /**
+                 * Push elements in stack
+                 */
                 stack.push("hello1");
                 stack.push("hello2");
                 stack.push("hello3");
@@ -138,16 +183,19 @@ public class Question5
                 System.out.println(e.getMessage());
                 System.exit(0);
             }
-
-            stack.show(); //Show elements
+            stack.show();
             System.out.println("peek---------------");
-            stack.peek(); //Peek top element
+
+            stack.peek();
             System.out.println("pop----------------");
-            stack.pop(); //Pop top element
+
+            stack.pop();
             System.out.println("-------------------");
-            stack.show(); //Show elements
+
+            stack.show();
             System.out.println("-------------------");
-            System.out.println(stack.size()); //Get size
+
+            System.out.println(stack.size());
         }
         catch(IllegalArgumentException e){System.out.println(e.getMessage());System.exit(0);}
     }
