@@ -32,27 +32,27 @@ class Manager extends Member
 public class Question1{
     public static void main(String[] args)
     {
-        Employee emp_1 = new Employee();
-        Manager mgr_1 = new Manager();
+        Employee emp = new Employee();
+        Manager mgr = new Manager();
 
 
-        //Assign data for Employee emp_1
-        emp_1.name="Employee1";
-        emp_1.age="24";
-        emp_1.phoneNumber="1234567891";
-        emp_1.address="Employee_Address";
-        emp_1.salary="100000";
+        //Assign data for Employee emp
+        emp.name="Employee1";
+        emp.age="24";
+        emp.phoneNumber="1234567891";
+        emp.address="Employee_Address";
+        emp.salary="100000";
 
 
-        //Assign data for Manager mgr_1
-        mgr_1.name="Manager1";
-        mgr_1.age="30";
-        mgr_1.phoneNumber="1234567892";
-        mgr_1.address="Manager_Address";
-        mgr_1.salary="150000";
+        //Assign data for Manager mgr
+        mgr.name="Manager1";
+        mgr.age="30";
+        mgr.phoneNumber="1234567892";
+        mgr.address="Manager_Address";
+        mgr.salary="150000";
 
-        //Print assigned data for emp_1 and mgr_1
-        emp_1.getDetails(emp_1.department);
-        mgr_1.getDetails(mgr_1.department);
+        //Print assigned data for emp and mgr
+        emp.getDetails(emp.department);
+        mgr.getDetails(mgr.department);
     }
 }
