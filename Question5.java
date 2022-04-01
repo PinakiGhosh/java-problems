@@ -56,7 +56,8 @@ class Node<Type>
 class LimitedStack<Type> implements Stack<Type>
 {
     private Node head;
-    int maxStack;
+    private int maxStack;
+    private int stackSize;
 
     public LimitedStack(int max) throws IllegalArgumentException
     {
@@ -67,7 +68,7 @@ class LimitedStack<Type> implements Stack<Type>
         {
             throw new IllegalArgumentException("Size cannot be {"+max+"}");
         }
-        else {maxStack=max;}
+        else {maxStack=max;stackSize=0;}
     }
 
     /**
@@ -91,6 +92,7 @@ class LimitedStack<Type> implements Stack<Type>
                 head = node;
             }
             maxStack--;
+            stackSize++;
         }
         else
         {throw new StackSizeExceeded("Stack size exceeded");}
@@ -107,6 +109,7 @@ class LimitedStack<Type> implements Stack<Type>
         {
             System.out.println(head.data);
             head=head.getNext();
+            stackSize--;
         }
     }
     /**
@@ -126,21 +129,7 @@ class LimitedStack<Type> implements Stack<Type>
     @Override
     public int size()
     {
-        Node node = head;
-        int size=0;
-        try
-        {
-            while (node.getNext() != null)
-            {
-                size += 1;
-                node = node.getNext();
-            }
-            size += 1;
-        }
-        catch(NullPointerException e)
-        {
-        }
-        return size;
+        return stackSize;
     }
 
     /**
