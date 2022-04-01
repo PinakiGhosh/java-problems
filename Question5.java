@@ -21,7 +21,7 @@ class IllegalArgumentException extends Exception
 class LimitedStack<Type> implements Stack<Type>
 {
     Node head;
-    int max_stack;
+    int maxStack;
 
     public LimitedStack(int max) throws IllegalArgumentException //LimitedStack Constructor
     {
@@ -29,7 +29,7 @@ class LimitedStack<Type> implements Stack<Type>
         {
             throw new IllegalArgumentException("Illegal Argument");
         }
-        else max_stack=max;
+        else maxStack=max;
     }
 
     private class Node //Create Node
@@ -41,13 +41,15 @@ class LimitedStack<Type> implements Stack<Type>
     @Override
     public void push(Type data) throws StackSizeExceeded //Push method
     {
-        if (size()<max_stack)
+        if (size()<maxStack)
         {
             Node node = new Node();
             node.data = data;
             node.next = null;
 
-            if(head==null) head = node;
+            if(head==null) {
+                head = node;
+            }
 
             else
             {

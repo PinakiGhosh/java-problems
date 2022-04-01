@@ -9,13 +9,15 @@ class SinglyLinkedList<Type>
         Node next;
     }
 
-    public void add_end(Type data) //Add to end of list
+    public void addEnd(Type data) //Add to end of list
     {
         Node node = new Node();
         node.data = data;
         node.next = null;
 
-        if(head==null) head = node;
+        if(head==null) {
+            head = node;
+        }
 
         else
         {
@@ -28,7 +30,7 @@ class SinglyLinkedList<Type>
         }
 
     }
-    public void add_start(Type data) //Add to start of list
+    public void addStart(Type data) //Add to start of list
     {
         Node node = new Node();
         node.data = data;
@@ -36,7 +38,7 @@ class SinglyLinkedList<Type>
         head = node;
     }
 
-    public void add_after(int index,Type data) //Add after an element
+    public void addAfter(int index,Type data) //Add after an element
     {
         Node node = new Node();
         node.data = data;
@@ -51,12 +53,12 @@ class SinglyLinkedList<Type>
         cursor.next = node;
     }
 
-    public void delete_start() //Delete from start of list
+    public void deleteStart() //Delete from start of list
     {
         head = head.next;
     }
 
-    public void delete_end() //Delete from end of list
+    public void deleteEnd() //Delete from end of list
     {
         Node cursor = head;
         int size=0;
@@ -65,9 +67,9 @@ class SinglyLinkedList<Type>
             cursor = cursor.next;
             size+=1;
         }
-        delete_after(size-1);
+        deleteAfter(size-1);
     }
-    public void delete_after(int index) //Delete after an index
+    public void deleteAfter(int index) //Delete after an index
     {
         Node cursor = head;
         Node delete_index = null;
@@ -109,27 +111,27 @@ public class Question2{
         SinglyLinkedList<String> list = new SinglyLinkedList<String>();
 
         //Add elements
-        list.add_end("hello");
-        list.add_end("world");
+        list.addEnd("hello");
+        list.addEnd("world");
 
         //Add element at start
-        list.add_start("new");
+        list.addStart("new");
 
         //Add element after index:1
-        list.add_after(1,"my");
+        list.addAfter(1,"my");
 
         //Show elements
         list.show();
         System.out.println("----------------");
 
         //Delete element at start
-        list.delete_start();
+        list.deleteStart();
 
         //Delete element at end
-        list.delete_end();
+        list.deleteEnd();
 
         //Delete element after index:0
-        list.delete_after(0);
+        list.deleteAfter(0);
 
         //Show elements
         list.show();

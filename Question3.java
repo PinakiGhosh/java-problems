@@ -10,54 +10,54 @@ class CardSuiteException  extends Exception
     public CardSuiteException(String message) {super(message);}
 }
 
-//card_select class
-class card_select
+//CardSelect class
+class CardSelect
 {
-    public String[] card_rank_list = new String[] {"ace", "king", "queen", "jack", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
-    public String[] card_suite_list = new String[] {"Diamonds", "Hearts", "Spades", "Clubs"};
-    public int card_rank;
-    public String card_rank_name;
-    public String card_suite;
+    public String[] cardRankList = new String[] {"ace", "king", "queen", "jack", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
+    public String[] cardSuiteList = new String[] {"Diamonds", "Hearts", "Spades", "Clubs"};
+    public int cardRank;
+    public String cardRankName;
+    public String cardSuite;
 
-    public void get_data() //Get card data
+    public void getData() //Get card data
     {
         System.out.println("Chose Card Suite");
         System.out.println("----------------------------------------");
         for(int i=0;i<4;i++)
         {
-            System.out.println((i+1)+". "+card_suite_list[i]);
+            System.out.println((i+1)+". "+cardSuiteList[i]);
         }
-        Scanner card_data1 = new Scanner(System.in);
+        Scanner cardData1 = new Scanner(System.in);
         System.out.println("Enter option:");
 
-        int option1 = card_data1.nextInt();
+        int option1 = cardData1.nextInt();
         if (option1 > 4 || option1 < 1)
         {
             try
             {
-                throw new InvalidEntryException("Invalid Input"); //Invalid card_suite exception
+                throw new InvalidEntryException("Invalid Input"); //Invalid cardSuite exception
             }
             catch (InvalidEntryException e) {System.out.println(e.getMessage());System.exit(0);}
         }
 
-        card_suite=card_suite_list[option1-1];
+        cardSuite=cardSuiteList[option1-1];
 
 
         System.out.println("----------------------------------------");
         System.out.println("Select Card Rank(eg:Ace,King,Queen,Jack,10,9...1)");
 
-        Scanner card_data2 = new Scanner(System.in);
-        String option2 = card_data2.nextLine();
-        if (in_array(option2)==false)
+        Scanner cardData2 = new Scanner(System.in);
+        String option2 = cardData2.nextLine();
+        if (inArray(option2)==false)
         {
             try
             {
-                throw new InvalidEntryException("Invalid Input"); //Invalid card_rank exception
+                throw new InvalidEntryException("Invalid Input"); //Invalid cardRank exception
             }
             catch(InvalidEntryException e) {System.out.println(e.getMessage());System.exit(0);}
         }
 
-        card_rank = getIndex(option2);
+        cardRank = getIndex(option2);
     }
 
     public static void validate(String card1, String card2) //Validate card suite
@@ -66,17 +66,17 @@ class card_select
         {
             try
             {
-                throw new CardSuiteException("Incompatible Card Suite"); //Different card_suite type exception
+                throw new CardSuiteException("Incompatible Card Suite"); //Different cardSuite type exception
             }
             catch(CardSuiteException e) {System.out.println(e.getMessage());System.exit(0);}
         }
     }
 
-    public int getIndex(String data) //Gets the the index of card in card_rank_list
+    public int getIndex(String data) //Gets the the index of card in cardRankList
     {
         for(int i=0;i<14;i++)
         {
-            if(card_rank_list[i].equals(data.toLowerCase()))
+            if(cardRankList[i].equals(data.toLowerCase()))
             {
                 return i;
             }
@@ -84,13 +84,13 @@ class card_select
         return 0;
     }
 
-    boolean in_array(String data) //Checks if card is valid
+    boolean inArray(String data) //Checks if card is valid
     {
         for(int i=0;i<14;i++)
         {
-            if(card_rank_list[i].equals(data.toLowerCase()))
+            if(cardRankList[i].equals(data.toLowerCase()))
             {
-                card_rank_name=card_rank_list[i];
+                cardRankName=cardRankList[i];
                 return true;
             }
         }
@@ -104,21 +104,28 @@ class card_select
 public class Question3 {
     public static void main(String[] args)
     {
-        card_select card1 = new card_select();
-        card_select card2 = new card_select();
+        CardSelect card1 = new CardSelect();
+        CardSelect card2 = new CardSelect();
 
         //Get card data for card1 and card 2
-        card1.get_data();
-        card2.get_data();
+        card1.getData();
+        card2.getData();
 
-        //Validate card_suite
-        card_select.validate(card1.card_suite, card2.card_suite);
+        //Validate cardSuite
+        CardSelect.validate(card1.cardSuite, card2.cardSuite);
 
         //Check bigger card
-        if (card1.card_rank < card2.card_rank)
-            System.out.println(card1.card_rank_name+" of "+card1.card_suite+" is bigger than "+card2.card_rank_name+" of "+card2.card_suite);
+        if (card1.cardRank < card2.cardRank) {
+            System.out.println(card1.cardRankName + " of " + card1.cardSuite + " is bigger than " + card2.cardRankName + " of " + card2.cardSuite);
+        }
+        else if (card2.cardRank < card1.cardRank) {
+            System.out.println(card2.cardRankName + " of " + card2.cardSuite + " is bigger than " + card1.cardRankName + " of " + card1.cardSuite);
+        }
         else
-            System.out.println(card2.card_rank_name+" of "+card2.card_suite+" is bigger than "+card1.card_rank_name+" of "+card1.card_suite);
+        {
+            System.out.println(card2.cardRankName + " of " + card2.cardSuite + " is equal to " + card1.cardRankName + " of " + card1.cardSuite);
+        }
+
 
 
     }
