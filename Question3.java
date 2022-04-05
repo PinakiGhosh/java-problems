@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 /**
@@ -20,34 +21,27 @@ class Card implements Comparable<Card>
 {
     public String suite;
     public String number;
-    private String[] cardRankList = new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"};
-    private String[] cardSuiteList = new String[] {"diamonds", "hearts", "spades", "clubs"};
+    private List<String> cardRankList = Arrays.asList(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"});
+    private List<String> cardSuiteList = Arrays.asList(new String[] {"diamonds", "hearts", "spades", "clubs"});
 
     /**
      * Card constructore
      * @param suite
      * @param number
      */
-    public Card(String suite, String number)
+    public Card(String suite, String number) throws InvalidEntryException
     {
         /**
          * Validate entry
          */
-        if (inArray(suite,cardSuiteList)==false)
+        if (!cardSuiteList.contains(suite))
         {
-            try
-            {
                 throw new InvalidEntryException("Invalid Input");
-            }
-            catch(InvalidEntryException e) {System.out.println(e.getMessage());System.exit(0);}
         }
-        if (inArray(number,cardRankList)==false)
+        if (!cardRankList.contains(number))
         {
-            try
-            {
-                throw new InvalidEntryException("Invalid Input"); //Invalid cardRank exception
-            }
-            catch(InvalidEntryException e) {System.out.println(e.getMessage());System.exit(0);}
+                throw new InvalidEntryException("Invalid Input");
+
         }
 
         /**
@@ -67,23 +61,11 @@ class Card implements Comparable<Card>
     }
 
 
-    boolean inArray(String data, String[] array)
-    {
-        for(int i=0;i<array.length;i++)
-        {
-            if(array[i].equals(data.toLowerCase()))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     int getIndex(String suite)
     {
         for(int i=0;i<14;i++)
         {
-            if(cardRankList[i].equals(suite.toLowerCase()))
+            if(cardRankList.get(i).equals(suite.toLowerCase()))
             {
                 return i+1;
             }
@@ -115,7 +97,7 @@ class Card implements Comparable<Card>
 }
 
 public class Question3 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws InvalidEntryException
     {
         List<Card> card = new ArrayList<>();
 

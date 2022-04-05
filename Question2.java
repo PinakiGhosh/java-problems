@@ -100,13 +100,16 @@ class SinglyLinkedList<Type>
     public void deleteEnd()
     {
         Node cursor = head;
-        int size=0;
+        Node checkEnd = null;
         while(cursor.getNext()!=null)
         {
             cursor = cursor.getNext();
-            size+=1;
+            checkEnd = cursor.getNext();
+            if (checkEnd.getNext()==null)
+            {
+                cursor.setNext(null);
+            }
         }
-        deleteAfter(size-1);
     }
 
     /**

@@ -16,14 +16,10 @@ public class Question4 {
     {
         slowMethod obj = new slowMethod();
 
-        /**
-         * Print Slow mwthod completed
-         */
+        //Print "Slow method completed"
         obj.start();
 
-        /**
-         * print Waiting for slow method
-         */
+        //Print "Waiting for slow method"
         System.out.println("Waiting for slow method");
     }
 }
