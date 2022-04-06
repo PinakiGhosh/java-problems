@@ -1,4 +1,4 @@
-class slowMethod extends Thread
+class SlowMethod extends Thread
 {
     public void run()
     {
@@ -14,7 +14,7 @@ class slowMethod extends Thread
 public class Question4 {
     public static void main(String[] args)
     {
-        slowMethod obj = new slowMethod();
+        SlowMethod obj = new SlowMethod();
 
         /**
          * Print Slow mwthod completed
