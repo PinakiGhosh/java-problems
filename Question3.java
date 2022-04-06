@@ -13,22 +13,22 @@ class CardSuiteException  extends Exception
     public CardSuiteException(String message) {super(message);}
 }
 
+enum CardRank
+{
+    ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING,ACE;
+}
 
+enum CardSuite
+{
+    DIAMONDS, HEARTS, SPADES, CLUBS;
+}
 
 /**
  * Card Class
  */
 class Card implements Comparable<Card>
 {
-    enum CardRank
-    {
-        ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING,ACE;
-    }
 
-    enum CardSuite
-    {
-        DIAMONDS, HEARTS, SPADES, CLUBS;
-    }
     public String suite;
     public String number;
     /**
