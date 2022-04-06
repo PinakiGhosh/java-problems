@@ -136,18 +136,17 @@ class SinglyLinkedList<Type>
     public void show()
     {
         Node node = head;
-        try
-        {
-            while (node.getNext() != null)
-            {
+
+        if (node != null) {
+            while (node.getNext() != null) {
                 System.out.println(node.getData());
                 node = node.getNext();
             }
             System.out.println(node.getData());
         }
-        catch(NullPointerException e)
+        else
         {
-            System.out.println("Stack is empty");
+            System.out.println("List is empty");
         }
 
     }

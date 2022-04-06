@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 /**
@@ -14,6 +13,16 @@ class CardSuiteException  extends Exception
     public CardSuiteException(String message) {super(message);}
 }
 
+enum CardRank
+{
+    ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING,ACE;
+}
+
+enum CardSuite
+{
+    DIAMONDS, HEARTS, SPADES, CLUBS;
+}
+
 /**
  * Card Class
  */
@@ -21,9 +30,6 @@ class Card implements Comparable<Card>
 {
     public String suite;
     public String number;
-    private List<String> cardRankList = Arrays.asList(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"});
-    private List<String> cardSuiteList = Arrays.asList(new String[] {"diamonds", "hearts", "spades", "clubs"});
-
     /**
      * Card constructore
      * @param suite
@@ -34,16 +40,10 @@ class Card implements Comparable<Card>
         /**
          * Validate entry
          */
-        if (!cardSuiteList.contains(suite))
+        if (inEnum(suite, number)==false)
         {
-                throw new InvalidEntryException("Invalid Input");
+            throw new InvalidEntryException("Invalid Input");
         }
-        if (!cardRankList.contains(number))
-        {
-                throw new InvalidEntryException("Invalid Input");
-
-        }
-
         /**
          * Assign value
          */
@@ -60,17 +60,41 @@ class Card implements Comparable<Card>
                 '}';
     }
 
+    /**
+     * Checks if value in enum
+     */
+    boolean inEnum(String suite, String number) {
+        int validate = 0;
 
-    int getIndex(String suite)
-    {
-        for(int i=0;i<14;i++)
-        {
-            if(cardRankList.get(i).equals(suite.toLowerCase()))
-            {
-                return i+1;
+        for (CardSuite card : CardSuite.values()) {
+            if (card.name().equals(suite.toUpperCase())) {
+                validate++;
             }
         }
-        return 0;
+        for (CardRank card : CardRank.values()) {
+            if (card.name().equals(number.toUpperCase())) {
+                validate++;
+            }
+        }
+
+        if(validate==2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+
+    }
+    /**
+     * GetsIndex
+     */
+    int getIndex(String suite)
+    {
+
+        return CardRank.valueOf(suite.toUpperCase()).ordinal();
     }
 
     /**
@@ -102,7 +126,7 @@ public class Question3 {
         List<Card> card = new ArrayList<>();
 
         card.add(new Card("diamonds","ace"));
-        card.add(new Card("diamonds","10"));
+        card.add(new Card("diamonds","ten"));
         card.add(new Card("diamonds","king"));
 
         Collections.sort(card);
