@@ -1,4 +1,4 @@
-package com.bankbazaar.javaproblems.problem5;
+package com.bankbazaar.javaproblems.problem5.problem;
 
 import com.bankbazaar.javaproblems.problem5.exceptions.StackSizeException;
 import com.bankbazaar.javaproblems.problem5.model.LimitedStack;
