@@ -1,5 +1,4 @@
 package com.bankbazaar.javaproblems.problem3.problem;
-import com.bankbazaar.javaproblems.problem3.exceptions.InvalidEntryException;
 import com.bankbazaar.javaproblems.problem3.model.Card;
 
 import java.util.ArrayList;
@@ -7,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Problem3 {
-    public static void main(String[] args) throws InvalidEntryException
+    public static void main(String[] args)
     {
         List<Card> card = new ArrayList<>();
 

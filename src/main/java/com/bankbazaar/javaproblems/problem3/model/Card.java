@@ -1,6 +1,5 @@
 package com.bankbazaar.javaproblems.problem3.model;
 
-import com.bankbazaar.javaproblems.problem3.exceptions.InvalidEntryException;
 import com.bankbazaar.javaproblems.problem3.exceptions.CardSuiteException;
 import com.bankbazaar.javaproblems.problem3.enums.CardRank;
 import com.bankbazaar.javaproblems.problem3.enums.CardSuite;
@@ -11,27 +10,30 @@ import com.bankbazaar.javaproblems.problem3.enums.CardSuite;
  */
 public class Card implements Comparable<Card>
 {
-    public String suite;
-    public String number;
+    private CardSuite suite;
+    private CardRank number;
     /**
      * Card constructor
      * @param suite
      * @param number
      */
-    public Card(String suite, String number) throws InvalidEntryException
+    public Card(String suite, String number)
     {
         /**
          * Validate entry
          */
-        if (inEnum(suite, number)==false)
+        try
         {
-            throw new InvalidEntryException("Invalid Input");
+            /**
+             * Assign value
+             */
+            this.suite = CardSuite.valueOf(suite.toUpperCase());
+            this.number = CardRank.valueOf(number.toUpperCase());
         }
-        /**
-         * Assign value
-         */
-        this.suite = suite;
-        this.number = number;
+        catch(IllegalArgumentException e)
+        {
+            throw new IllegalArgumentException("Invalid Input");
+        }
     }
 
 
@@ -41,35 +43,6 @@ public class Card implements Comparable<Card>
                 "suite='" + suite + '\'' +
                 ", number='" + number + '\'' +
                 '}';
-    }
-
-    /**
-     * Checks if value in enum
-     */
-    boolean inEnum(String suite, String number) {
-        int validate = 0;
-
-        for (CardSuite card : CardSuite.values()) {
-            if (card.name().equals(suite.toUpperCase())) {
-                validate++;
-            }
-        }
-        for (CardRank card : CardRank.values()) {
-            if (card.name().equals(number.toUpperCase())) {
-                validate++;
-            }
-        }
-
-        if(validate==2)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-
     }
     /**
      * GetsIndex
@@ -89,11 +62,11 @@ public class Card implements Comparable<Card>
             /**
              * Validate card suite
              */
-            if(!suite.equals(card.suite.toLowerCase()))
+            if(!suite.name().equals(card.suite.name().toUpperCase()))
             {
                 throw new CardSuiteException("Card Suite are not of same type");
             }
-            return getIndex(number) < getIndex(card.number) ? 1 : -1;
+            return getIndex(number.name()) < getIndex(card.number.name()) ? 1 : -1;
         }
         catch(CardSuiteException e) {System.out.println(e.getMessage());System.exit(0);}
         return 0;

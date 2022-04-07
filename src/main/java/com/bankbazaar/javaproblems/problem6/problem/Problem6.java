@@ -25,7 +25,7 @@ public class Problem6 {
         }
         catch (NullPointerException e)
         {
-            System.out.println("File not found");
+            throw new NullPointerException("File not found");
         }
         }
     }
