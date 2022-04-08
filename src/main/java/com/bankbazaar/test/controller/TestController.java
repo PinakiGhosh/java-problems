@@ -2,6 +2,7 @@ package com.bankbazaar.test.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.bankbazaar.test.model.TestModel1;
 import com.bankbazaar.test.model.TestModel2;
@@ -21,9 +22,9 @@ public class TestController {
     }
 
     @GetMapping("/API2")
-    public String getAPi2()
+    public String getAPi2(@RequestParam String data)
     {
-        TestModel2 test2 = new TestModel2("Data2");
+        TestModel2 test2 = new TestModel2(data);
         return test2.getData();
     }
 
