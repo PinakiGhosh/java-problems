@@ -11,14 +11,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "Department")
+@Table(name = "department")
 public class Department{
     @Id
     @GeneratedValue
     @Column(name="department_id")
-    private int id;
+    private long id;
     @Column(name="department_name")
     private String name;
-    @Column(name="employee_count")
-    private int employeeCount;
+    @Column(name="department_floor")
+    private int departmentFloor;
+    @Column(name="department_phone")
+    private String departmentPhone;
 }

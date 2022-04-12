@@ -11,12 +11,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "Employee")
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue
     @Column(name="id")
-    private int id;
+    private long id;
     @Column(name="name")
     private String name;
     @Column(name="age")

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentService {
@@ -23,14 +24,6 @@ public class DepartmentService {
         return departmentRepository.save(data);
     }
     /**
-     * Insert List to Department table
-     * @param dataList
-     */
-    public List<Department> saveDepartmentList(List<Department> dataList)
-    {
-        return departmentRepository.saveAll(dataList);
-    }
-    /**
      * Print all record as list
      */
     public List<Department> getDepartmentList() {
@@ -39,8 +32,8 @@ public class DepartmentService {
     /**
      * Print record by ID
      */
-    public Department getDepartmentById(int id) {
-        return departmentRepository.findById(id).orElse(null);
+    public Optional<Department> getDepartmentById(Long id) {
+        return departmentRepository.findById(id);
     }
     /**
      * Print records by name
@@ -50,8 +43,14 @@ public class DepartmentService {
     }
     /**
      * Delete record by id
+     * @param id
      */
-    public String deleteDepartment(int id) {
+    public String deleteDepartment(long id) {
+        Department existingDepartment = departmentRepository.findById(id).orElse(null);
+        if(existingDepartment==null)
+        {
+            return null;
+        }
         departmentRepository.deleteById(id);
         return "Department "+id+" has been removed" ;
     }
@@ -60,11 +59,14 @@ public class DepartmentService {
      */
     public Department updateDepartment(Department department) {
         Department existingDepartment = departmentRepository.findById(department.getId()).orElse(null);
+        if(existingDepartment==null)
+        {
+            return null;
+        }
         existingDepartment.setName(department.getName());
-        existingDepartment.setEmployeeCount(department.getEmployeeCount());
+        existingDepartment.setDepartmentPhone(department.getDepartmentPhone());
+        existingDepartment.setDepartmentFloor(department.getDepartmentFloor());
         return departmentRepository.save(existingDepartment);
     }
-
-
 
 }
