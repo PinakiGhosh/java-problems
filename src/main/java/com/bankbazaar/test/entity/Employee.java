@@ -1,5 +1,6 @@
 package com.bankbazaar.test.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class Employee {
     private int age;
     @Column(name="salary")
     private String salary;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="department_id", referencedColumnName = "department_id")
     private Department departmentId;
 

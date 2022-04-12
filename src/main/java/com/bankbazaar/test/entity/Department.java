@@ -21,6 +21,4 @@ public class Department{
     private String name;
     @Column(name="employee_count")
     private int employeeCount;
-    @OneToOne(mappedBy = "departmentId")
-    private Employee employee;
 }
