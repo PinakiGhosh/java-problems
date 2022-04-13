@@ -2,6 +2,7 @@ package com.bankbazaar.test.service;
 
 
 import com.bankbazaar.test.entity.Employee;
+import com.bankbazaar.test.repository.DepartmentRepository;
 import com.bankbazaar.test.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +15,18 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-    private EmployeeRepository departmentRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
     /**
      * Insert to Employee table
      * @param data
      */
     public Employee saveEmployee(Employee data)
     {
+        if(departmentRepository.findById(data.getDepartmentId().getId()).isEmpty())
+        {
+            return null;
+        }
         return employeeRepository.save(data);
     }
 
@@ -28,6 +34,7 @@ public class EmployeeService {
      * Print all record as list
      */
     public List<Employee> getEmployeeList() {
+
         return employeeRepository.findAll();
     }
     /**
@@ -46,8 +53,7 @@ public class EmployeeService {
      * Delete record by id
      */
     public String deleteEmployee(long id) {
-        Employee existingEmployee = employeeRepository.findById(id).orElse(null);
-        if(existingEmployee==null)
+        if(employeeRepository.findById(id).isEmpty())
         {
             return null;
         }
@@ -66,6 +72,7 @@ public class EmployeeService {
         existingEmployee.setName(employee.getName());
         existingEmployee.setAge(employee.getAge());
         existingEmployee.setSalary(employee.getSalary());
+
         return employeeRepository.save(existingEmployee);
     }
 

@@ -7,98 +7,75 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/departments")
 public class DepartmentController {
     @Autowired
     private DepartmentService service;
 
-    @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public ResponseEntity<String> addDepartment(@RequestBody Department department) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Department> addDepartment(@Valid @RequestBody Department department) {
 
-        try {
-            service.saveDepartment(department);
-        }
-        catch(Exception e)
-        {
-            return new ResponseEntity<>(
-                    "Invalid Department Id",
-                    HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(
-                "Entry Successful",
-                HttpStatus.OK);
+        Department response = service.saveDepartment(department);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public ResponseEntity<String> findAllDepartment() {
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Department>> findAllDepartment() {
 
-        if (service.getDepartmentList()==null) {
-            return new ResponseEntity<>(
-                    "No Data",
-                    HttpStatus.NOT_FOUND);
+        List<Department> departmentData = service.getDepartmentList();
+        if (departmentData==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.getDepartmentList(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(departmentData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<String> findDepartmentById(@PathVariable Long id) {
+    @RequestMapping(value="/id",method = RequestMethod.GET)
+    public ResponseEntity<Optional<Department>> findDepartmentById(@RequestParam Long id) {
 
-        if (service.getDepartmentById(id).isEmpty()) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+        Optional<Department> departmentData = service.getDepartmentById(id);
+        if (departmentData.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.getDepartmentById(id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(departmentData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/name/{name}", method = RequestMethod.GET)
-    public ResponseEntity<String> findDepartmentByName(@PathVariable String name) {
+    @RequestMapping(value="/name",method = RequestMethod.GET)
+    public ResponseEntity<Department> findDepartmentByName(@RequestParam String name) {
 
-        if (service.getDepartmentByName(name)==null) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+        Department departmentData = service.getDepartmentByName(name);
+        if (departmentData==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.getDepartmentByName(name),
-                HttpStatus.OK);
+        return new ResponseEntity<>(departmentData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteDepartment(@PathVariable long id) {
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Department> deleteDepartment(@RequestParam Long id) {
 
         if (service.deleteDepartment(id)==null) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.deleteDepartment(id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateDepartment(@RequestBody Department department) {
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Department> updateDepartment(@Valid @RequestBody Department department) {
 
-        if (service.updateDepartment(department)==null) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+        Department response = service.updateDepartment(department);
+        if(response == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(
-                "" + service.updateDepartment(department),
-                HttpStatus.OK);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

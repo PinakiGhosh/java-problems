@@ -7,100 +7,79 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
     @Autowired
     private EmployeeService service;
 
-    @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public ResponseEntity<String> addEmployee(@RequestBody Employee employee) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee) {
 
-        try {
-            service.saveEmployee(employee);
-        }
-        catch(Exception e)
+        Employee response = service.saveEmployee(employee);
+        if(response == null)
         {
-            return new ResponseEntity<>(
-                    "Invalid Department Id",
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(
-                "Entry Successful",
-                HttpStatus.OK);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public ResponseEntity<String> findAllEmployee() {
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Employee>> findAllEmployee() {
 
-        if (service.getEmployeeList()==null) {
-            return new ResponseEntity<>(
-                    "No Data",
-                    HttpStatus.NOT_FOUND);
+        List<Employee> employeeData = service.getEmployeeList();
+        if (employeeData==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.getEmployeeList(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(employeeData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<String> findEmployeeById(@PathVariable Long id) {
+    @RequestMapping(value="/id",method = RequestMethod.GET)
+    public ResponseEntity<Optional<Employee>> findEmployeeById(@RequestParam Long id) {
 
-        if (service.getEmployeeById(id).isEmpty()) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+        Optional<Employee> employeeData = service.getEmployeeById(id);
+        if (employeeData.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.getEmployeeById(id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(employeeData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/name/{name}", method = RequestMethod.GET)
-    public ResponseEntity<String> findEmployeeByName(@PathVariable String name) {
+    @RequestMapping(value="/name",method = RequestMethod.GET)
+    public ResponseEntity<Employee> findEmployeeByName(@RequestParam String name) {
 
-        if (service.getEmployeeByName(name)==null) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+        Employee employeeData = service.getEmployeeByName(name);
+        if (employeeData==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.getEmployeeByName(name),
-                HttpStatus.OK);
+        return new ResponseEntity<>(employeeData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteEmployee(@PathVariable long id) {
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Employee> deleteEmployee(@RequestParam Long id) {
 
         if (service.deleteEmployee(id)==null) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                "" + service.deleteEmployee(id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateEmployee(@RequestBody Employee employee) {
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody Employee employee) {
 
-        if (service.updateEmployee(employee)==null) {
-            return new ResponseEntity<>(
-                    "Invalid ID",
-                    HttpStatus.NOT_FOUND);
+        Employee response = service.updateEmployee(employee);
+        if(response == null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(
-                "" + service.updateEmployee(employee),
-                HttpStatus.OK);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
-
-

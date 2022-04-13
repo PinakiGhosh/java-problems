@@ -45,9 +45,8 @@ public class DepartmentService {
      * Delete record by id
      * @param id
      */
-    public String deleteDepartment(long id) {
-        Department existingDepartment = departmentRepository.findById(id).orElse(null);
-        if(existingDepartment==null)
+    public String deleteDepartment(Long id) {
+        if(departmentRepository.findById(id).isEmpty())
         {
             return null;
         }
